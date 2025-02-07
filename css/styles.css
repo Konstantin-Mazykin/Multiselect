@@ -1,0 +1,142 @@
+:root {
+  --color-dark: black;
+  --color-gray: #b8b8b8;
+  --color-light: white;
+  --color-background: #c2d2e6;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: System-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.multiselect__title {
+  max-width: 360px;
+  width: 100%;
+  padding: 10px 0 10px 20px;
+  background-color: var(--color-light);
+  border: 1px solid var(--color-dark);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px 0px var(--color-dark);
+  cursor: pointer;
+}
+
+.multiselect__title:hover {
+  outline: none;
+  background-color: var(--color-background);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.multiselect__list {
+  max-width: 360px;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0px 4px 8px 0px var(--color-dark);
+}
+
+.multiselect__item {
+  position: relative;
+  padding: 10px 20px;
+  background-color: var(--color-light);
+  border: 1px solid var(--color-dark);
+  border-top: none;
+  border-bottom: none;
+}
+
+.multiselect__item:hover {
+  background-color: var(--color-background);
+}
+
+.multiselect__item:last-child {
+  border-radius: 0 0 8px 8px;
+  border-bottom: 1px solid var(--color-dark);
+}
+
+.multiselect__search-wrapper {
+  position: relative;
+}
+
+.multiselect__search {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 5px 35px 5px 10px;
+  width: 100%;
+  border: 1px solid var(--color-gray);
+  border-radius: 6px;
+}
+
+.multiselect__search-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 6px;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.multiselect__checkbox-input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+}
+
+.multiselect__checkbox-label {
+  display: block;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.multiselect__checkbox-label::before {
+  content: "";
+  display: block;
+  width: 1.3rem;
+  height: 1.3rem;
+  border: 1px solid var(--color-gray);
+  border-radius: 4px;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+.multiselect__checkbox-label::after {
+  content: "";
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 1px 1px;
+  background: url(../img/checkmark.svg) no-repeat;
+  background-size: 1.2rem 1.2rem;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.multiselect__checkbox-input:checked + .multiselect__checkbox-label::after {
+  opacity: 0.5;
+}
