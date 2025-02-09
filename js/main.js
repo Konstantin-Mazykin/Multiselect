@@ -1,3 +1,4 @@
+const selectMenu = document.querySelector(".multiselect");
 const selectTitle = document.querySelector(".multiselect__title");
 const selectList = document.querySelector(".multiselect__list");
 const listItems = selectList.querySelectorAll(".multiselect__item");
@@ -111,9 +112,28 @@ function keyboardSelection(evant) {
       checkedItem = true;
     }
     evant.target.firstElementChild.checked = checkedItem;
+    selectedAllItems(evant.target.firstElementChild, "item-0");
   }
   checkingAllItemsSelected();
   displayListSelectedItems();
+}
+
+let chooseElement = -1;
+function navigationUpDown(evant) {
+  if (selectList.classList.contains("open-list")) {
+    if (evant.key === "ArrowDown") {
+      if (chooseElement < listItems.length - 1) {
+        chooseElement++;
+        listItems[chooseElement].focus();
+      }
+    }
+    if (evant.key === "ArrowUp") {
+      if (chooseElement) {
+        chooseElement--;
+        listItems[chooseElement].focus();
+      }
+    }
+  }
 }
 
 selectTitle.addEventListener("click", openSelectMenu);
@@ -128,3 +148,5 @@ searchField.addEventListener("input", searchItems);
 selectTitle.addEventListener("keydown", keyboardActions);
 
 selectList.addEventListener("keydown", keyboardSelection);
+
+selectMenu.addEventListener("keydown", navigationUpDown);
