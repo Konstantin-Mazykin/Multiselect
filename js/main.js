@@ -3,9 +3,6 @@ const selectList = document.querySelector(".multiselect__list");
 const listItems = selectList.querySelectorAll(".multiselect__item");
 const searchField = document.querySelector(".multiselect__search");
 
-const selectedItems = [];
-let selectedItem = "";
-
 function openSelectMenu() {
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
@@ -44,7 +41,7 @@ function checkedAllItems(value) {
 }
 
 function displayListSelectedItems() {
-  selectedItems.splice(0, selectedItems.length);
+  const selectedItems = [];
   for (let i = 1; i < listItems.length; i++) {
     if (listItems[i].children[0].checked) {
       selectedItems.push(listItems[i].children[1].innerHTML);
