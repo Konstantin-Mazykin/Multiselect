@@ -23,45 +23,71 @@ function clickOutsideSelect(evant) {
 }
 
 function processingSelectedItem(evant) {
-  if (evant.target.localName == "label") {
-    selectedItem = evant.target.innerHTML;
-  }
-  if (evant.target.localName == "input" && evant.target.id == "item-0") {
+  if (evant.target.id == "item-0") {
     if (evant.target.checked) {
       checkedAllItems(true);
     } else {
       checkedAllItems(false);
     }
-  } else if (evant.target.localName == "input") {
-    if (evant.target.checked) {
-      selectedItems.push(selectedItem);
-    } else {
-      let index = selectedItems.findIndex((value) => value == selectedItem);
-      selectedItems.splice(index, 1);
-    }
   }
-  displayListSelectedItems(selectedItems);
+
+  checkingAllItemsSelected();
+  displayListSelectedItems();
 }
 
 function checkedAllItems(value) {
-  selectedItems.splice(0, selectedItems.length);
-  listItems.forEach((listItem) => {
-    listItem.children[0].checked = value;
-    if (listItem.children[0].id !== "item-0") selectedItems.push(listItem.children[1].innerHTML);
-  });
-  if (!value) selectedItems.splice(0, selectedItems.length);
+  for (let i = 1; i < listItems.length; i++) {
+    if (!listItems[i].classList.contains("hide-item")) {
+      listItems[i].children[0].checked = value;
+    }
+  }
 }
 
-function displayListSelectedItems(arr) {
-  if (!arr.length) {
+function displayListSelectedItems() {
+  selectedItems.splice(0, selectedItems.length);
+  for (let i = 1; i < listItems.length; i++) {
+    if (listItems[i].children[0].checked) {
+      selectedItems.push(listItems[i].children[1].innerHTML);
+    }
+  }
+  if (!selectedItems.length) {
     selectTitle.innerHTML = "Select city";
   } else {
-    selectTitle.innerHTML = arr.join(", ");
+    selectTitle.innerHTML = selectedItems.join(", ");
+  }
+}
+
+function checkingAllItemsSelected() {
+  let numberOfVisibeElements = 0;
+  let numberOfCheckedElements = 0;
+  for (let i = 1; i < listItems.length; i++) {
+    if (!listItems[i].classList.contains("hide-item")) numberOfVisibeElements++;
+    if (listItems[i].children[0].checked && !listItems[i].classList.contains("hide-item")) numberOfCheckedElements++;
+  }
+
+  if (numberOfVisibeElements && numberOfVisibeElements == numberOfCheckedElements) {
+    listItems[0].children[0].checked = true;
+  } else {
+    listItems[0].children[0].checked = false;
   }
 }
 
 function searchItems() {
-  console.log(searchField.value);
+  let searchValue = searchField.value.toLowerCase();
+  let numberOfElementsFound = 0;
+  for (let i = 1; i < listItems.length; i++) {
+    let listItemValue = listItems[i].children[1].innerHTML.toLowerCase();
+    if (!listItemValue.includes(searchValue)) {
+      listItems[i].classList.add("hide-item");
+    } else {
+      listItems[i].classList.remove("hide-item");
+      listItems[numberOfElementsFound].classList.remove("last-item");
+      numberOfElementsFound = i;
+    }
+  }
+  listItems[numberOfElementsFound].classList.add("last-item");
+
+  checkingAllItemsSelected();
 }
 
 selectTitle.addEventListener("click", openSelectMenu);
