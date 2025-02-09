@@ -3,6 +3,8 @@ const selectList = document.querySelector(".multiselect__list");
 const listItems = selectList.querySelectorAll(".multiselect__item");
 const searchField = document.querySelector(".multiselect__search");
 
+const defaultValue = selectTitle.innerHTML;
+
 function openSelectMenu() {
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
@@ -20,16 +22,19 @@ function clickOutsideSelect(evant) {
 }
 
 function processingSelectedItem(evant) {
-  if (evant.target.id == "item-0") {
-    if (evant.target.checked) {
+  selectedAllItems(evant.target, "item-0");
+  checkingAllItemsSelected();
+  displayListSelectedItems();
+}
+
+function selectedAllItems(elem, id) {
+  if (elem.id == id) {
+    if (elem.checked) {
       checkedAllItems(true);
     } else {
       checkedAllItems(false);
     }
   }
-
-  checkingAllItemsSelected();
-  displayListSelectedItems();
 }
 
 function checkedAllItems(value) {
@@ -47,11 +52,12 @@ function displayListSelectedItems() {
       selectedItems.push(listItems[i].children[1].innerHTML);
     }
   }
+
   if (!selectedItems.length) {
-    selectTitle.innerHTML = "Select city";
-  } else {
-    selectTitle.innerHTML = selectedItems.join(", ");
-  }
+    selectTitle.innerHTML = defaultValue;
+  } else if (selectedItems.length > 3) {
+    selectTitle.innerHTML = `Selected ${selectedItems.length} items`;
+  } else selectTitle.innerHTML = selectedItems.join(", ");
 }
 
 function checkingAllItemsSelected() {
@@ -87,6 +93,29 @@ function searchItems() {
   checkingAllItemsSelected();
 }
 
+function keyboardActions(evant) {
+  if (evant.key === "Enter") {
+    openSelectMenu();
+  }
+  if (evant.key === "Escape") {
+    closeSelectMenu();
+  }
+}
+
+function keyboardSelection(evant) {
+  let checkedItem;
+  if (evant.key === "Enter") {
+    if (evant.target.firstElementChild.checked) {
+      checkedItem = false;
+    } else {
+      checkedItem = true;
+    }
+    evant.target.firstElementChild.checked = checkedItem;
+  }
+  checkingAllItemsSelected();
+  displayListSelectedItems();
+}
+
 selectTitle.addEventListener("click", openSelectMenu);
 document.addEventListener("click", clickOutsideSelect);
 
@@ -95,3 +124,7 @@ listItems.forEach((listItem) => {
 });
 
 searchField.addEventListener("input", searchItems);
+
+selectTitle.addEventListener("keydown", keyboardActions);
+
+selectList.addEventListener("keydown", keyboardSelection);
