@@ -73,8 +73,6 @@ ul {
   background-color: var(--color-light);
   border-left: 1px solid var(--color-dark);
   border-right: 1px solid var(--color-dark);
-  border-top: none;
-  border-bottom: none;
 }
 
 .multiselect__item:hover {
@@ -194,5 +192,6 @@ ul {
 }
 
 .last-item {
+  border-bottom: 1px solid var(--color-dark);
   border-radius: 0 0 8px 8px;
 }
