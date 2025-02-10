@@ -62,9 +62,6 @@ function displayListSelectedItems() {
   for (let i = 1; i < listItems.length; i++) {
     if (listItems[i].children[0].checked) {
       selectedItems.push(listItems[i].children[1].innerHTML);
-      listItems[i].setAttribute("aria-checked", "true");
-    } else {
-      listItems[i].setAttribute("aria-checked", "false");
     }
   }
 
@@ -73,6 +70,14 @@ function displayListSelectedItems() {
   } else if (selectedItems.length > 3) {
     selectTitle.innerHTML = `Selected ${selectedItems.length} items`;
   } else selectTitle.innerHTML = selectedItems.join(", ");
+
+  for (let i = 0; i < listItems.length; i++) {
+    if (listItems[i].children[0].checked) {
+      listItems[i].setAttribute("aria-checked", "true");
+    } else {
+      listItems[i].setAttribute("aria-checked", "false");
+    }
+  }
 }
 
 function checkingAllItemsSelected() {
