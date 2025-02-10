@@ -175,11 +175,11 @@ ul {
   background-color: var(--color-light);
 }
 
-.multiselect__checkbox-input:checked + .multiselect__checkbox-label::after {
+.multiselect__checkbox-input:checked+.multiselect__checkbox-label::after {
   opacity: 0.5;
 }
 
-.multiselect__checkbox-input:checked + .multiselect__item {
+.multiselect__checkbox-input:checked+.multiselect__item {
   background-color: var(--color-background);
 }
 

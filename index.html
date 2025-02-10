@@ -2,61 +2,66 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multiselect</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
 <body>
     <div class="container">
         <div class="multiselect">
-            <div class="multiselect__title" tabindex="1">Select city</div>
-            <ul class="multiselect__list">
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-0">
+            <div class="multiselect__title" tabindex="1" role="combobox" aria-label="multiselect menu"
+                aria-labelledby='multiselect-menu' aria-expanded="false" aria-controls="multiselect-menu-1">Select city
+            </div>
+            <ul class="multiselect__list" id="multiselect-menu-1" aria-labelledby='multiselect-menu' aria-hidden="true">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="search">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-0" />
                     <label class="multiselect__checkbox-label" for="item-0">
-                        <input class="multiselect__search" type="text">
-                        <img class="multiselect__search-icon" src="./img/search.svg" alt="Search">
+                        <input class="multiselect__search" type="text" tabindex="0" role="search" />
+                        <img class="multiselect__search-icon" src="./img/search.svg" alt="Search" />
                     </label>
                 </li>
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-1">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="kyiv">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-1" />
                     <label class="multiselect__checkbox-label" for="item-1">Kyiv</label>
                 </li>
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-2">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="kharkiv">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-2" />
                     <label class="multiselect__checkbox-label" for="item-2">Kharkiv</label>
                 </li>
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-3">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="lviv">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-3" />
                     <label class="multiselect__checkbox-label" for="item-3">Lviv</label>
                 </li>
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-4">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="odessa">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-4" />
                     <label class="multiselect__checkbox-label" for="item-4">Odessa</label>
                 </li>
-                <li class="multiselect__item" tabindex="0">
-                    <input class="multiselect__checkbox-input" type="checkbox" id="item-5">
+                <li class="multiselect__item" tabindex="0" aria-checked="false" data-value="dnipro">
+                    <input class="multiselect__checkbox-input" type="checkbox" id="item-5" />
                     <label class="multiselect__checkbox-label" for="item-5">Dnipro</label>
                 </li>
             </ul>
         </div>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus enim cum voluptates omnis dolor provident
-            delectus repellendus aliquam consequatur nihil velit, dignissimos distinctio facere molestias minima fugiat
-            blanditiis corporis natus?
-            Animi vel obcaecati, porro ab iure aliquid fuga quasi? Laborum doloremque suscipit numquam temporibus
-            voluptate. Illo neque dignissimos culpa blanditiis ducimus provident, placeat quod corporis adipisci nihil
-            repellendus ex voluptas.
-            Recusandae perferendis dolorum laborum, at distinctio corporis, debitis deserunt cumque sint asperiores
-            eveniet facilis dolore voluptas accusamus id voluptates omnis eius unde? Reiciendis, obcaecati temporibus
-            fugit porro dolorum id non.
-            Ea dolore atque accusantium nisi illo officia autem exercitationem earum nihil rerum commodi vero,
-            blanditiis enim et. Voluptate dignissimos vel consequatur labore eos alias, neque repellendus, ad error illo
-            voluptatum.
-            Obcaecati alias et deleniti illo accusamus numquam autem architecto nobis ducimus assumenda quos esse magni
-            quam maxime aspernatur corporis, eius error atque unde laudantium culpa eveniet sapiente excepturi. Quo,
-            repudiandae.
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus enim cum voluptates omnis dolor provident
+            delectus repellendus aliquam
+            consequatur nihil velit, dignissimos distinctio facere molestias minima fugiat blanditiis corporis natus?
+            Animi vel obcaecati, porro ab iure
+            aliquid fuga quasi? Laborum doloremque suscipit numquam temporibus voluptate. Illo neque dignissimos culpa
+            blanditiis ducimus provident,
+            placeat quod corporis adipisci nihil repellendus ex voluptas. Recusandae perferendis dolorum laborum, at
+            distinctio corporis, debitis deserunt
+            cumque sint asperiores eveniet facilis dolore voluptas accusamus id voluptates omnis eius unde? Reiciendis,
+            obcaecati temporibus fugit porro
+            dolorum id non. Ea dolore atque accusantium nisi illo officia autem exercitationem earum nihil rerum commodi
+            vero, blanditiis enim et.
+            Voluptate dignissimos vel consequatur labore eos alias, neque repellendus, ad error illo voluptatum.
+            Obcaecati alias et deleniti illo
+            accusamus numquam autem architecto nobis ducimus assumenda quos esse magni quam maxime aspernatur corporis,
+            eius error atque unde laudantium
+            culpa eveniet sapiente excepturi. Quo, repudiandae.
         </p>
     </div>
 

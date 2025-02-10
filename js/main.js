@@ -5,15 +5,26 @@ const listItems = selectList.querySelectorAll(".multiselect__item");
 const searchField = document.querySelector(".multiselect__search");
 
 const defaultValue = selectTitle.innerHTML;
+let chooseElement;
 
 function openSelectMenu() {
+  chooseElement = -1;
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
+  if (selectTitle.classList.contains("title-pressed")) {
+    selectTitle.setAttribute("aria-expanded", "true");
+    selectList.setAttribute("aria-hidden", "false");
+  } else {
+    selectTitle.setAttribute("aria-expanded", "false");
+    selectList.setAttribute("aria-hidden", "true");
+  }
 }
 
 function closeSelectMenu() {
-  selectList.classList.remove("open-list");
   selectTitle.classList.remove("title-pressed");
+  selectList.classList.remove("open-list");
+  selectTitle.setAttribute("aria-expanded", "false");
+  selectList.setAttribute("aria-hidden", "true");
 }
 
 function clickOutsideSelect(evant) {
@@ -51,6 +62,9 @@ function displayListSelectedItems() {
   for (let i = 1; i < listItems.length; i++) {
     if (listItems[i].children[0].checked) {
       selectedItems.push(listItems[i].children[1].innerHTML);
+      listItems[i].setAttribute("aria-checked", "true");
+    } else {
+      listItems[i].setAttribute("aria-checked", "false");
     }
   }
 
@@ -92,12 +106,19 @@ function searchItems() {
   listItems[numberOfElementsFound].classList.add("last-item");
 
   checkingAllItemsSelected();
+  chooseElement = -1;
 }
 
-function keyboardActions(evant) {
+function keyboardActionsOpenMenu(evant) {
   if (evant.key === "Enter") {
     openSelectMenu();
   }
+  if (evant.key === "Escape") {
+    closeSelectMenu();
+  }
+}
+
+function keyboardActionsCloseMenu(evant) {
   if (evant.key === "Escape") {
     closeSelectMenu();
   }
@@ -118,7 +139,6 @@ function keyboardSelection(evant) {
   displayListSelectedItems();
 }
 
-let chooseElement = -1;
 function navigationUpDown(evant) {
   if (selectList.classList.contains("open-list")) {
     if (evant.key === "ArrowDown") {
@@ -136,8 +156,9 @@ function navigationUpDown(evant) {
   }
 }
 
+
 selectTitle.addEventListener("click", openSelectMenu);
-document.addEventListener("click", clickOutsideSelect);
+selectTitle.addEventListener("keydown", keyboardActionsOpenMenu);
 
 listItems.forEach((listItem) => {
   listItem.addEventListener("click", processingSelectedItem);
@@ -145,8 +166,9 @@ listItems.forEach((listItem) => {
 
 searchField.addEventListener("input", searchItems);
 
-selectTitle.addEventListener("keydown", keyboardActions);
-
+selectList.addEventListener("keydown", keyboardActionsCloseMenu);
 selectList.addEventListener("keydown", keyboardSelection);
 
 selectMenu.addEventListener("keydown", navigationUpDown);
+
+document.addEventListener("click", clickOutsideSelect);
