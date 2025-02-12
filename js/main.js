@@ -9,7 +9,6 @@ let chooseElement;
 
 function openSelectMenu(evant) {
   chooseElement = -1;
-  evant._menuOpened = true;
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
   if (selectTitle.classList.contains("title-pressed")) {
@@ -29,7 +28,7 @@ function closeSelectMenu() {
 }
 
 function clickOutsideSelect(evant) {
-  if (!evant._menuOpened) {
+  if (!evant.target.classList.value.includes("multiselect__")) {
     closeSelectMenu();
   }
 }
