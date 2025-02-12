@@ -152,8 +152,6 @@ function keyboardSelectUnselect(event) {
 function navigationUpDown(event) {
   if (!selectList.classList.contains("open-list")) return;
 
-  event.preventDefault();
-
   if ((event.key === "ArrowDown") && (chooseElement < listItems.length - 1)) {
     chooseElement++;
     listItems[chooseElement].focus();
@@ -163,7 +161,6 @@ function navigationUpDown(event) {
     listItems[chooseElement].focus();
   }
 }
-
 
 selectTitle.addEventListener("click", openCloseSelectMenu);
 selectTitle.addEventListener("keydown", keyboardActionsOpenCloseMenu);
