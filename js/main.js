@@ -7,8 +7,9 @@ const searchField = document.querySelector(".multiselect__search");
 const defaultValue = selectTitle.innerHTML;
 let chooseElement;
 
-function openSelectMenu() {
+function openSelectMenu(evant) {
   chooseElement = -1;
+  evant._menuOpened = true;
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
   if (selectTitle.classList.contains("title-pressed")) {
@@ -28,12 +29,13 @@ function closeSelectMenu() {
 }
 
 function clickOutsideSelect(evant) {
-  if (!evant.target.classList.value.includes("multiselect__")) {
+  if (!evant._menuOpened) {
     closeSelectMenu();
   }
 }
 
 function processingSelectedItem(evant) {
+  evant._menuOpened = true;
   selectedAllItems(evant.target, "item-0");
   checkingAllItemsSelected();
   displayListSelectedItems();
