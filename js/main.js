@@ -31,8 +31,8 @@ function closeSelectMenu() {
   setAriaHeaderAttributes();
 }
 
-function closeMenuWhenClickedOutside(evant) {
-  if (!evant.target.classList.value.includes("multiselect__")) {
+function closeMenuWhenClickedOutside(event) {
+  if (!event.target.classList.value.includes("multiselect__")) {
     closeSelectMenu();
   }
 }
@@ -120,43 +120,45 @@ function searchItems() {
   chooseElement = -1;
 }
 
-function keyboardActionsOpenCloseMenu(evant) {
-  if (evant.key === "Enter") {
+function keyboardActionsOpenCloseMenu(event) {
+  if (event.key === "Enter") {
     openCloseSelectMenu();
   }
-  if (evant.key === "Escape") {
+  if (event.key === "Escape") {
     closeSelectMenu();
   }
 }
 
-function keyboardActionsCloseMenu(evant) {
-  if (evant.key === "Escape") {
+function keyboardActionsCloseMenu(event) {
+  if (event.key === "Escape") {
     closeSelectMenu();
   }
 }
 
-function keyboardSelectUnselect(evant) {
-  if (evant.key !== "Enter") return;
-  if (evant.target.firstElementChild.checked) {
-    evant.target.firstElementChild.checked = false;
+function keyboardSelectUnselect(event) {
+  if (event.key !== "Enter") return;
+  if (event.target.firstElementChild.checked) {
+    event.target.firstElementChild.checked = false;
   } else {
-    evant.target.firstElementChild.checked = true;
+    event.target.firstElementChild.checked = true;
   }
-  if (evant.target.firstElementChild.id === "item-0") {
+  if (event.target.firstElementChild.id === "item-0") {
     selectUnselectAllItems();
   }
   checkingAllItemsSelected();
   displayListSelectedItems();
 }
 
-function navigationUpDown(evant) {
+function navigationUpDown(event) {
   if (!selectList.classList.contains("open-list")) return;
 
-  if ((evant.key === "ArrowDown") && (chooseElement < listItems.length - 1)) {
+  event.preventDefault();
+
+  if ((event.key === "ArrowDown") && (chooseElement < listItems.length - 1)) {
     chooseElement++;
     listItems[chooseElement].focus();
   }
-  if ((evant.key === "ArrowUp") && chooseElement) {
+  if ((event.key === "ArrowUp") && chooseElement) {
     chooseElement--;
     listItems[chooseElement].focus();
   }
