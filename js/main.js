@@ -2,15 +2,20 @@ const selectMenu = document.querySelector(".multiselect");
 const selectTitle = document.querySelector(".multiselect__title");
 const selectList = document.querySelector(".multiselect__list");
 const listItems = selectList.querySelectorAll(".multiselect__item");
+const mainItem = document.querySelector("#item-0");
 const searchField = document.querySelector(".multiselect__search");
 
 const defaultValue = selectTitle.innerHTML;
 let chooseElement;
 
-function openSelectMenu(evant) {
+function openCloseSelectMenu() {
   chooseElement = -1;
   selectList.classList.toggle("open-list");
   selectTitle.classList.toggle("title-pressed");
+  setAriaHeaderAttributes();
+}
+
+function setAriaHeaderAttributes() {
   if (selectTitle.classList.contains("title-pressed")) {
     selectTitle.setAttribute("aria-expanded", "true");
     selectList.setAttribute("aria-hidden", "false");
@@ -23,34 +28,30 @@ function openSelectMenu(evant) {
 function closeSelectMenu() {
   selectTitle.classList.remove("title-pressed");
   selectList.classList.remove("open-list");
-  selectTitle.setAttribute("aria-expanded", "false");
-  selectList.setAttribute("aria-hidden", "true");
+  setAriaHeaderAttributes();
 }
 
-function clickOutsideSelect(evant) {
+function closeMenuWhenClickedOutside(evant) {
   if (!evant.target.classList.value.includes("multiselect__")) {
     closeSelectMenu();
   }
 }
 
-function processingSelectedItem(evant) {
-  evant._menuOpened = true;
-  selectedAllItems(evant.target, "item-0");
+function processingSelectedItem() {
   checkingAllItemsSelected();
   displayListSelectedItems();
 }
 
-function selectedAllItems(elem, id) {
-  if (elem.id == id) {
-    if (elem.checked) {
-      checkedAllItems(true);
-    } else {
-      checkedAllItems(false);
-    }
+function selectUnselectAllItems() {
+  if (mainItem.checked) {
+    checkUncheckAllItems(true);
+  } else {
+    checkUncheckAllItems(false);
   }
+  displayListSelectedItems();
 }
 
-function checkedAllItems(value) {
+function checkUncheckAllItems(value) {
   for (let i = 1; i < listItems.length; i++) {
     if (!listItems[i].classList.contains("hide-item")) {
       listItems[i].children[0].checked = value;
@@ -70,8 +71,12 @@ function displayListSelectedItems() {
     selectTitle.innerHTML = defaultValue;
   } else if (selectedItems.length > 3) {
     selectTitle.innerHTML = `Selected ${selectedItems.length} items`;
-  } else selectTitle.innerHTML = selectedItems.join(", ");
+  } else { selectTitle.innerHTML = selectedItems.join(", "); }
 
+  setAriaItemsAttributes();
+}
+
+function setAriaItemsAttributes() {
   for (let i = 0; i < listItems.length; i++) {
     if (listItems[i].children[0].checked) {
       listItems[i].setAttribute("aria-checked", "true");
@@ -85,11 +90,11 @@ function checkingAllItemsSelected() {
   let numberOfVisibeElements = 0;
   let numberOfCheckedElements = 0;
   for (let i = 1; i < listItems.length; i++) {
-    if (!listItems[i].classList.contains("hide-item")) numberOfVisibeElements++;
-    if (listItems[i].children[0].checked && !listItems[i].classList.contains("hide-item")) numberOfCheckedElements++;
+    if (!listItems[i].classList.contains("hide-item")) { numberOfVisibeElements++; };
+    if (listItems[i].children[0].checked && !listItems[i].classList.contains("hide-item")) { numberOfCheckedElements++; };
   }
 
-  if (numberOfVisibeElements && numberOfVisibeElements == numberOfCheckedElements) {
+  if (numberOfVisibeElements && (numberOfVisibeElements === numberOfCheckedElements)) {
     listItems[0].children[0].checked = true;
   } else {
     listItems[0].children[0].checked = false;
@@ -115,9 +120,9 @@ function searchItems() {
   chooseElement = -1;
 }
 
-function keyboardActionsOpenMenu(evant) {
+function keyboardActionsOpenCloseMenu(evant) {
   if (evant.key === "Enter") {
-    openSelectMenu();
+    openCloseSelectMenu();
   }
   if (evant.key === "Escape") {
     closeSelectMenu();
@@ -130,41 +135,38 @@ function keyboardActionsCloseMenu(evant) {
   }
 }
 
-function keyboardSelection(evant) {
-  let checkedItem;
-  if (evant.key === "Enter") {
-    if (evant.target.firstElementChild.checked) {
-      checkedItem = false;
-    } else {
-      checkedItem = true;
-    }
-    evant.target.firstElementChild.checked = checkedItem;
-    selectedAllItems(evant.target.firstElementChild, "item-0");
+function keyboardSelectUnselect(evant) {
+  if (evant.key !== "Enter") return;
+  if (evant.target.firstElementChild.checked) {
+    evant.target.firstElementChild.checked = false;
+  } else {
+    evant.target.firstElementChild.checked = true;
+  }
+  if (evant.target.firstElementChild.id === "item-0") {
+    selectUnselectAllItems();
   }
   checkingAllItemsSelected();
   displayListSelectedItems();
 }
 
 function navigationUpDown(evant) {
-  if (selectList.classList.contains("open-list")) {
-    if (evant.key === "ArrowDown") {
-      if (chooseElement < listItems.length - 1) {
-        chooseElement++;
-        listItems[chooseElement].focus();
-      }
-    }
-    if (evant.key === "ArrowUp") {
-      if (chooseElement) {
-        chooseElement--;
-        listItems[chooseElement].focus();
-      }
-    }
+  if (!selectList.classList.contains("open-list")) return;
+
+  if ((evant.key === "ArrowDown") && (chooseElement < listItems.length - 1)) {
+    chooseElement++;
+    listItems[chooseElement].focus();
+  }
+  if ((evant.key === "ArrowUp") && chooseElement) {
+    chooseElement--;
+    listItems[chooseElement].focus();
   }
 }
 
 
-selectTitle.addEventListener("click", openSelectMenu);
-selectTitle.addEventListener("keydown", keyboardActionsOpenMenu);
+selectTitle.addEventListener("click", openCloseSelectMenu);
+selectTitle.addEventListener("keydown", keyboardActionsOpenCloseMenu);
+
+mainItem.addEventListener("click", selectUnselectAllItems);
 
 listItems.forEach((listItem) => {
   listItem.addEventListener("click", processingSelectedItem);
@@ -173,8 +175,8 @@ listItems.forEach((listItem) => {
 searchField.addEventListener("input", searchItems);
 
 selectList.addEventListener("keydown", keyboardActionsCloseMenu);
-selectList.addEventListener("keydown", keyboardSelection);
+selectList.addEventListener("keydown", keyboardSelectUnselect);
 
 selectMenu.addEventListener("keydown", navigationUpDown);
 
-document.addEventListener("click", clickOutsideSelect);
+document.addEventListener("click", closeMenuWhenClickedOutside);
